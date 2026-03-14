@@ -6,12 +6,19 @@
     <title>Super Minds 2 Unit 7 现在进行时精讲</title>
     
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QJ6EXQH8SW"></script>
     <script>
+        const GA_MEASUREMENT_ID = 'G-QJ6EXQH8SW';
+        
+        // Dynamically load gtag script to ensure ID consistency
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+        document.head.appendChild(script);
+        
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-QJ6EXQH8SW');
+        gtag('config', GA_MEASUREMENT_ID);
     </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
