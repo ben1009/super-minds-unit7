@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>现在进行时 · 棒球特训 · Homework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                font-family: 'Noto Sans SC', sans-serif;
+                background-color: #f5f5dc;
+                background-image: 
+                    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5c-13.8 0-25 11.2-25 25s11.2 25 25 25 25-11.2 25-25S43.8 5 30 5zm0 45c-11 0-20-9-20-20S19 10 30 10s20 9 20 20-9 20-20 20z' fill='%23c41e3a' fill-opacity='0.03'/%3E%3Cpath d='M15 20c5 10 5 20 0 30M45 20c-5 10-5 20 0 30' stroke='%23c41e3a' stroke-width='1' fill='none' opacity='0.05'/%3E%3C/svg%3E");
+            }
+            h1, h2, h3, .serif { font-family: 'Noto Serif SC', serif; }
+            .baseball-font { font-family: 'Rye', serif; }
+            .ink-border { border: 3px solid #8b4513; box-shadow: 4px 4px 0px rgba(139,69,19,0.2); }
+            .card-flip { perspective: 1000px; }
+            .card-inner {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                transition: transform 0.6s;
+                transform-style: preserve-3d;
+            }
+            .card-flip.flipped .card-inner { transform: rotateY(180deg); }
+            .card-front, .card-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                backface-visibility: hidden;
+                border-radius: 12px;
+            }
+            .card-back { transform: rotateY(180deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-red-800 text-white py-4 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold baseball-font">⚾ Super Minds</a>
+            <div class="flex gap-4 text-sm">
+                <a href="index.html" class="hover:text-yellow-400 transition-colors">📖 课程学习</a>
+                <span>|</span>
+                <span class="text-yellow-400">📚 课后作业</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 py-8">
+
+        <!-- Header -->
+        <header class="text-center mb-12 relative">
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4 text-6xl opacity-20">⚾</div>
+            <h1 class="text-4xl md:text-6xl font-black text-red-900 mb-4 tracking-tight serif">
+                现在进行时
+            </h1>
+            <div class="flex items-center justify-center gap-4 mb-2">
+                <div class="h-1 w-16 bg-red-800 rounded"></div>
+                <p class="text-xl md:text-2xl font-bold text-red-900 serif">棒球特训 · Baseball Drills</p>
+                <div class="h-1 w-16 bg-red-800 rounded"></div>
+            </div>
+            <p class="text-gray-600 text-sm">Superminds 2 · Unit 7 · 语法专题</p>
+            <div class="mt-4 inline-block bg-red-800 text-white px-4 py-2 rounded-full text-sm font-bold transform rotate-2">
+                ⚾ 全垒打挑战 Home Run Challenge ⚾
+            </div>
+        </header>
+
+        <!-- Grammar Structure -->
+        <section class="mb-12 ink-border bg-white rounded-2xl p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 opacity-10">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-current text-red-800">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <path d="M20 35c15 20 15 40 0 60M80 35c-15 20-15 40 0 60" stroke="currentColor" stroke-width="3" fill="none"/>
+                </svg>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-6 text-red-900 serif border-b-4 border-red-800 pb-2 inline-block">
+                § 语法结构 · 投球姿势
+            </h2>
+
+            <div class="space-y-6">
+                <div class="bg-green-50 rounded-xl p-4 border-l-4 border-green-600">
+                    <p class="font-bold text-green-900 mb-3">肯定句 · 击中球心</p>
+                    <p class="text-sm text-gray-600 mb-2">结构：人/物 + am/is/are + 动词-ing + 其他</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-lg">
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow">
+                            <span class="text-3xl">⚾</span>
+                            <span>He is <b class="text-red-700">pitching</b> the ball.</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow">
+                            <span class="text-3xl">🏏</span>
+                            <span>She is <b class="text-red-700">swinging</b> the bat.</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow">
+                            <span class="text-3xl">🧤</span>
+                            <span>I am <b class="text-red-700">catching</b> the ball.</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow">
+                            <span class="text-3xl">🏃</span>
+                            <span>They are <b class="text-red-700">running</b> to base.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 rounded-xl p-4 border-l-4 border-red-600">
+                    <p class="font-bold text-red-900 mb-3">否定句 · 漏接失误</p>
+                    <p class="text-sm text-gray-600 mb-2">结构：人/物 + am/is/are + not + 动词-ing + 其他</p>
+                    <div class="space-y-2 text-lg">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">❌</span>
+                            <span>He is <b>not hitting</b> the ball.</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🚫</span>
+                            <span>They are <b>not pitching</b> now.</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">⛔</span>
+                            <span>I am <b>not playing</b> catcher today.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 rounded-xl p-4 border-l-4 border-blue-600">
+                    <p class="font-bold text-blue-900 mb-3">疑问句 · 战术询问</p>
+                    <p class="text-sm text-gray-600 mb-2">结构：Am/Is/Are + 人/物 + 动词-ing + 其他?</p>
+                    <div class="space-y-3">
+                        <div class="bg-white rounded-lg p-3 shadow">
+                            <p class="font-bold text-blue-800">Q: Is the pitcher throwing fast balls?</p>
+                            <div class="flex gap-4 mt-2 text-sm">
+                                <span class="text-green-700 font-bold">Yes, he is. ⚾</span>
+                                <span class="text-red-700 font-bold">No, he isn't. ❌</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 shadow">
+                            <p class="font-bold text-blue-800">Q: Are you batting right-handed?</p>
+                            <p class="text-sm text-gray-500 mt-1">你在用右手击球吗？</p>
+                            <div class="flex gap-4 mt-2 text-sm">
+                                <span class="text-green-700 font-bold">Yes, I am. 🏏</span>
+                                <span class="text-red-700 font-bold">No, I'm not. ✋</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vocabulary Cards -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-red-900 serif border-b-4 border-red-800 pb-2 inline-block">
+                文 棒球术语 · 动作卡片
+            </h2>
+            <p class="text-gray-600 mb-4">点击卡片查看现在进行时例句</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="card-flip h-40 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front bg-white ink-border flex flex-col items-center justify-center p-4">
+                            <span class="text-5xl mb-2">⚾</span>
+                            <h3 class="font-bold text-lg">pitching</h3>
+                            <p class="text-sm text-gray-600">投球</p>
+                            <p class="text-xs text-gray-400 mt-2">点击查看例句</p>
+                        </div>
+                        <div class="card-back bg-red-800 text-white flex flex-col items-center justify-center p-4 rounded-xl">
+                            <p class="font-bold mb-2">Q: What is the pitcher doing?</p>
+                            <p class="text-lg">He is <b>pitching</b> the ball.</p>
+                            <p class="text-xs mt-2 opacity-80">⚾ 投手正在投球</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-flip h-40 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front bg-white ink-border flex flex-col items-center justify-center p-4">
+                            <span class="text-5xl mb-2">🏏</span>
+                            <h3 class="font-bold text-lg">batting</h3>
+                            <p class="text-sm text-gray-600">击球</p>
+                            <p class="text-xs text-gray-400 mt-2">点击查看例句</p>
+                        </div>
+                        <div class="card-back bg-blue-800 text-white flex flex-col items-center justify-center p-4 rounded-xl">
+                            <p class="font-bold mb-2">Q: What is the batter doing?</p>
+                            <p class="text-lg">He is <b>batting</b> the ball.</p>
+                            <p class="text-xs mt-2 opacity-80">🏏 击球手正在击球</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-flip h-40 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front bg-white ink-border flex flex-col items-center justify-center p-4">
+                            <span class="text-5xl mb-2">🧤</span>
+                            <h3 class="font-bold text-lg">catching</h3>
+                            <p class="text-sm text-gray-600">接球</p>
+                            <p class="text-xs text-gray-400 mt-2">点击查看例句</p>
+                        </div>
+                        <div class="card-back bg-green-800 text-white flex flex-col items-center justify-center p-4 rounded-xl">
+                            <p class="font-bold mb-2">Q: What is the catcher doing?</p>
+                            <p class="text-lg">He is <b>catching</b> the ball.</p>
+                            <p class="text-xs mt-2 opacity-80">🧤 捕手正在接球</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-flip h-40 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front bg-white ink-border flex flex-col items-center justify-center p-4">
+                            <span class="text-5xl mb-2">🏃</span>
+                            <h3 class="font-bold text-lg">running</h3>
+                            <p class="text-sm text-gray-600">跑垒</p>
+                            <p class="text-xs text-gray-400 mt-2">点击查看例句</p>
+                        </div>
+                        <div class="card-back bg-yellow-700 text-white flex flex-col items-center justify-center p-4 rounded-xl">
+                            <p class="font-bold mb-2">Q: What are the players doing?</p>
+                            <p class="text-lg">They are <b>running</b> to base.</p>
+                            <p class="text-xs mt-2 opacity-80">🏃 球员们正在跑垒</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-flip h-40 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front bg-white ink-border flex flex-col items-center justify-center p-4">
+                            <span class="text-5xl mb-2">🎯</span>
+                            <h3 class="font-bold text-lg">fielding</h3>
+                            <p class="text-sm text-gray-600">守备</p>
+                            <p class="text-xs text-gray-400 mt-2">点击查看例句</p>
+                        </div>
+                        <div class="card-back bg-purple-800 text-white flex flex-col items-center justify-center p-4 rounded-xl">
+                            <p class="font-bold mb-2">Q: What is the fielder doing?</p>
+                            <p class="text-lg">He is <b>fielding</b> the ball.</p>
+                            <p class="text-xs mt-2 opacity-80">🎯 外野手正在守备</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-flip h-40 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front bg-white ink-border flex flex-col items-center justify-center p-4">
+                            <span class="text-5xl mb-2">🎪</span>
+                            <h3 class="font-bold text-lg">practicing</h3>
+                            <p class="text-sm text-gray-600">练习</p>
+                            <p class="text-xs text-gray-400 mt-2">点击查看例句</p>
+                        </div>
+                        <div class="card-back bg-orange-800 text-white flex flex-col items-center justify-center p-4 rounded-xl">
+                            <p class="font-bold mb-2">Q: What is the team doing?</p>
+                            <p class="text-lg">They are <b>practicing</b> hard.</p>
+                            <p class="text-xs mt-2 opacity-80">🎪 球队正在刻苦训练</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-flip h-40 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front bg-white ink-border flex flex-col items-center justify-center p-4">
+                            <span class="text-5xl mb-2">👀</span>
+                            <h3 class="font-bold text-lg">watching</h3>
+                            <p class="text-sm text-gray-600">观战</p>
+                            <p class="text-xs text-gray-400 mt-2">点击查看例句</p>
+                        </div>
+                        <div class="card-back bg-teal-800 text-white flex flex-col items-center justify-center p-4 rounded-xl">
+                            <p class="font-bold mb-2">Q: What are the fans doing?</p>
+                            <p class="text-lg">They are <b>watching</b> the game.</p>
+                            <p class="text-xs mt-2 opacity-80">👀 球迷们正在观战</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-flip h-40 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="card-inner">
+                        <div class="card-front bg-white ink-border flex flex-col items-center justify-center p-4">
+                            <span class="text-5xl mb-2">🏆</span>
+                            <h3 class="font-bold text-lg">winning</h3>
+                            <p class="text-sm text-gray-600">获胜</p>
+                            <p class="text-xs text-gray-400 mt-2">点击查看例句</p>
+                        </div>
+                        <div class="card-back bg-yellow-600 text-white flex flex-col items-center justify-center p-4 rounded-xl">
+                            <p class="font-bold mb-2">Q: What is our team doing?</p>
+                            <p class="text-lg">We are <b>winning</b> the game!</p>
+                            <p class="text-xs mt-2 opacity-80">🏆 我们正在赢得比赛！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="mb-12 ink-border bg-white rounded-2xl p-6 md:p-8 relative">
+            <div class="absolute -top-6 -left-6 w-24 h-24 bg-red-800 rounded-full flex items-center justify-center text-white font-black text-3xl transform -rotate-12 shadow-lg z-10 border-4 border-white">
+                9局
+            </div>
+
+            <h2 class="text-3xl font-bold mb-6 text-red-900 serif border-b-4 border-red-800 pb-2 pl-16">
+                故 The Big Game · 冠军赛 · 完整版
+            </h2>
+
+            <div class="space-y-8">
+                <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-6 border-l-4 border-green-600">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-green-700 text-white px-3 py-1 rounded-full text-sm font-bold">第1局</span>
+                        <h3 class="text-xl font-bold text-green-900">比赛开始 · Play Ball!</h3>
+                    </div>
+                    <p class="text-green-800 font-bold mb-2 italic">"We are going to win! We are very excited!"</p>
+                    <p class="text-gray-600 mb-4">我们要赢了！我们很激动！</p>
+                    <div class="bg-white rounded-lg p-4 shadow-inner">
+                        <p class="font-bold text-gray-800 mb-2">⚾ 投手投球！Pitcher is pitching!</p>
+                        <p class="text-gray-600">The pitcher is throwing the ball.</p>
+                        <p class="text-sm text-gray-500">投手正在投球。</p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 border-l-4 border-blue-600">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-blue-700 text-white px-3 py-1 rounded-full text-sm font-bold">第3局</span>
+                        <h3 class="text-xl font-bold text-blue-900">击球手登场 · Batter Up!</h3>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-inner mb-4">
+                        <p class="font-bold text-gray-800">🏏 击球姿势</p>
+                        <p class="text-gray-600">The batter is swinging the bat.</p>
+                        <p class="text-sm text-gray-500">击球手正在挥棒。</p>
+                    </div>
+                    <div class="bg-yellow-50 rounded-lg p-4 border-2 border-yellow-400">
+                        <p class="font-bold text-yellow-900 mb-2">💡 语法提示：</p>
+                        <p class="text-sm text-yellow-800">swinging 表示"正在挥动"，要注意保持身体平衡！</p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl p-6 border-l-4 border-purple-600">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm font-bold">第5局</span>
+                        <h3 class="text-xl font-bold text-purple-900">场上的状况 · There be 句型观察</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">描述球场上的景象（点击展开查看全部例句）</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 cursor-pointer" onclick="toggleThis(this)">
+                        <div class="bg-white rounded-lg p-3 shadow">
+                            <p class="text-2xl mb-1">⚾</p>
+                            <p class="font-bold text-gray-800">There are lots of balls in the field.</p>
+                            <p class="text-sm text-gray-500">球场上有很多球。</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 shadow">
+                            <p class="text-2xl mb-1">👥</p>
+                            <p class="font-bold text-gray-800">There are lots of fans in the stands.</p>
+                            <p class="text-sm text-gray-500">看台上有很多人。</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 shadow">
+                            <p class="text-2xl mb-1">🧤</p>
+                            <p class="font-bold text-gray-800">There is a catcher behind the plate.</p>
+                            <p class="text-sm text-gray-500">本垒板后面有一个捕手。</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 shadow">
+                            <p class="text-2xl mb-1">🏆</p>
+                            <p class="font-bold text-gray-800">There is a trophy in the clubhouse.</p>
+                            <p class="text-sm text-gray-500">俱乐部里有一座奖杯。</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2 text-center">💡 语法提示：There is + 单数名词 / There are + 复数名词</p>
+                </div>
+
+                <div class="bg-gradient-to-r from-red-50 to-red-100 rounded-xl p-6 border-l-4 border-red-600">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-red-700 text-white px-3 py-1 rounded-full text-sm font-bold">第7局</span>
+                        <h3 class="text-xl font-bold text-red-900">关键时刻 · We have got a chance!</h3>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-inner mb-4">
+                        <p class="text-red-800 font-bold mb-2">⚠️ 关键比分</p>
+                        <p class="font-bold text-gray-800">We have got a chance to win!</p>
+                        <p class="text-gray-600 mb-2">我们有机会赢了！</p>
+                        <div class="space-y-2 mt-3 text-sm">
+                            <div class="flex items-center gap-2">
+                                <span>🧍</span>
+                                <span>The runner is on first base.</span>
+                                <span class="text-gray-500">一垒有跑垒员。</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span>⚾</span>
+                                <span>The pitcher is throwing curve balls.</span>
+                                <span class="text-gray-500">投手正在投曲线球。</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span>🚗</span>
+                                <span>They are trying to steal second base.</span>
+                                <span class="text-gray-500">他们试图盗垒到二垒。</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border-l-4 border-yellow-600">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm font-bold">第9局</span>
+                        <h3 class="text-xl font-bold text-yellow-900">全垒打！Home Run!</h3>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-inner text-center">
+                        <p class="text-4xl mb-2">🎉⚾🏆</p>
+                        <p class="font-bold text-yellow-900 text-xl mb-2">Here we are! This is the big moment!</p>
+                        <p class="text-gray-600 mb-4">就是现在！关键时刻到了！</p>
+                        <div class="bg-yellow-200 rounded-lg p-3 inline-block">
+                            <p class="font-bold text-yellow-900">HOME RUN! 全垒打！</p>
+                            <p class="text-sm text-yellow-800">The batter is running around the bases!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white rounded-xl p-4 shadow-md border-2 border-gray-200">
+                        <h4 class="font-bold text-gray-800 mb-2">🚌 This is the bus to... → ⚾ This is the team for...</h4>
+                        <p class="text-sm text-gray-600 mb-2">这是...的球队/位置</p>
+                        <div class="space-y-1 text-sm">
+                            <p>This is the team for the championship.</p>
+                            <p>This is the team for victory.</p>
+                            <p>This is the position for the pitcher.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-md border-2 border-gray-200">
+                        <h4 class="font-bold text-gray-800 mb-2">🎯 Now it is my turn to...</h4>
+                        <p class="text-sm text-gray-600 mb-2">轮到我...了</p>
+                        <div class="space-y-1 text-sm">
+                            <p>Now it is my turn to bat.</p>
+                            <p>Now it is my turn to pitch.</p>
+                            <p>Now it is my turn to catch.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Exercises -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-red-900 serif border-b-4 border-red-800 pb-2 inline-block">
+                练 互动练习 · 点击显示/隐藏答案
+            </h2>
+
+            <div class="space-y-6">
+                <div class="ink-border bg-white rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">1. 句型转换练习 · 投球三态</h3>
+                    <div class="bg-gray-50 rounded-lg p-4 space-y-3">
+                        <div class="flex flex-col gap-2">
+                            <p class="font-bold">肯定句：He is <span class="text-red-600 font-bold">pitching</span> the ball.</p>
+                            <button onclick="toggleAnswer('ans1-neg')" class="text-left text-blue-700 hover:text-blue-900 font-medium">→ 否定句（点击显示）</button>
+                            <p id="ans1-neg" class="hidden pl-4 text-gray-700">He is not pitching the ball.</p>
+                            <button onclick="toggleAnswer('ans1-q')" class="text-left text-blue-700 hover:text-blue-900 font-medium">→ 疑问句（点击显示）</button>
+                            <p id="ans1-q" class="hidden pl-4 text-gray-700">Is he pitching the ball?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ink-border bg-white rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">2. 造句练习 · 使用棒球术语（点击灰色区域显示/隐藏）</h3>
+                    <div class="space-y-3">
+                        <div class="bg-gray-100 rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-colors" onclick="toggleAnswer('ans2-1')">
+                            <p class="font-medium">⚾ pitcher / throw / ball</p>
+                            <p id="ans2-1" class="hidden mt-2 text-green-800 font-bold bg-white p-2 rounded">
+                                What is the pitcher doing? He is throwing the ball.
+                            </p>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-colors" onclick="toggleAnswer('ans2-2')">
+                            <p class="font-medium">🏏 batter / swing / bat</p>
+                            <p id="ans2-2" class="hidden mt-2 text-green-800 font-bold bg-white p-2 rounded">
+                                What is the batter doing? He is swinging the bat.
+                            </p>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-colors" onclick="toggleAnswer('ans2-3')">
+                            <p class="font-medium">🏃 players / run / bases</p>
+                            <p id="ans2-3" class="hidden mt-2 text-green-800 font-bold bg-white p-2 rounded">
+                                What are the players doing? They are running to the bases.
+                            </p>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-colors" onclick="toggleAnswer('ans2-4')">
+                            <p class="font-medium">🧤 catcher / catch / ball</p>
+                            <p id="ans2-4" class="hidden mt-2 text-green-800 font-bold bg-white p-2 rounded">
+                                What is the catcher doing? He is catching the ball.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ink-border bg-white rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">3. 比赛复述练习 · 根据记忆补全关键句子</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-gray-100 rounded-lg p-3 cursor-pointer" onclick="toggleAnswer('ans3-1')">
+                            <p class="text-sm text-gray-600">投手投球：</p>
+                            <p id="ans3-1" class="hidden text-green-800 font-bold mt-1">
+                                The pitcher is throwing the ball.
+                            </p>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 cursor-pointer" onclick="toggleAnswer('ans3-2')">
+                            <p class="text-sm text-gray-600">击球手挥棒：</p>
+                            <p id="ans3-2" class="hidden text-green-800 font-bold mt-1">
+                                The batter is swinging the bat.
+                            </p>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 cursor-pointer" onclick="toggleAnswer('ans3-3')">
+                            <p class="text-sm text-gray-600">我们有机会：</p>
+                            <p id="ans3-3" class="hidden text-green-800 font-bold mt-1">
+                                We have got a chance to win!
+                            </p>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 cursor-pointer" onclick="toggleAnswer('ans3-4')">
+                            <p class="text-sm text-gray-600">轮到我了：</p>
+                            <p id="ans3-4" class="hidden text-green-800 font-bold mt-1">
+                                Now it is my turn to bat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ink-border bg-white rounded-xl p-6 bg-gradient-to-br from-white to-green-50">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">4. 棒球对话创作工坊（6-8句）· 比赛现场</h3>
+                    <p class="text-sm text-gray-600 mb-3">点击灰色区域显示对话，再次点击隐藏</p>
+                    <div class="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-all" onclick="toggleAnswer('dialogue')">
+                        <p class="text-center text-gray-500 text-sm mb-2">点击显示完整对话</p>
+                        <div id="dialogue" class="hidden space-y-3 bg-white p-4 rounded-lg shadow-inner">
+                            <div class="flex gap-3">
+                                <span class="bg-blue-100 px-2 py-1 rounded text-blue-800 font-bold text-sm">A</span>
+                                <p>Hi! What are you doing now?</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="bg-green-100 px-2 py-1 rounded text-green-800 font-bold text-sm">B</span>
+                                <p>I am <b>practicing</b> my swing. What about you?</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="bg-blue-100 px-2 py-1 rounded text-blue-800 font-bold text-sm">A</span>
+                                <p>I am <b>waiting</b> for my turn to bat.</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="bg-green-100 px-2 py-1 rounded text-green-800 font-bold text-sm">B</span>
+                                <p>Look! The pitcher is <b>throwing</b> fast balls!</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="bg-blue-100 px-2 py-1 rounded text-blue-800 font-bold text-sm">A</span>
+                                <p>Great! But there are lots of fans watching us.</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="bg-green-100 px-2 py-1 rounded text-green-800 font-bold text-sm">B</span>
+                                <p>Don't worry. We are <b>playing</b> a big game. It is exciting!</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="bg-blue-100 px-2 py-1 rounded text-blue-800 font-bold text-sm">A</span>
+                                <p>Look! The batter is <b>hitting</b> a home run!</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="bg-green-100 px-2 py-1 rounded text-green-800 font-bold text-sm">B</span>
+                                <p>Yes! And now it is my turn to <b>run</b> to the base!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="copyDialogue()" class="mt-3 bg-red-800 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-bold w-full md:w-auto">
+                        📋 复制对话到剪贴板
+                    </button>
+                    <p id="copyMsg" class="text-green-600 text-sm mt-2 hidden">✓ 已复制到剪贴板</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Homework Checklist -->
+        <section class="ink-border bg-white rounded-2xl p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 opacity-5">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-current text-red-800">
+                    <path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" fill="currentColor"/>
+                </svg>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-6 text-red-900 serif border-b-4 border-red-800 pb-2 inline-block">
+                业 作业清单 · 3/16/2026
+            </h2>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-3 bg-red-50 p-3 rounded-lg">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-red-800 rounded focus:ring-red-800" id="hw1">
+                    <label for="hw1" class="cursor-pointer">
+                        <span class="font-bold text-gray-800">复习现在进行时三种句式</span>
+                        <p class="text-sm text-gray-600">肯定句、否定句、一般疑问句结构（投球、击球、跑垒场景）</p>
+                    </label>
+                </div>
+                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-800 rounded focus:ring-blue-800" id="hw2">
+                    <label for="hw2" class="cursor-pointer">
+                        <span class="font-bold text-gray-800">用现在进行时三种句式造句</span>
+                        <p class="text-sm text-gray-600">使用棒球术语中的短语（pitching, batting, catching, running等）</p>
+                    </label>
+                </div>
+                <div class="flex items-start gap-3 bg-green-50 p-3 rounded-lg">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-green-800 rounded focus:ring-green-800" id="hw3">
+                    <label for="hw3" class="cursor-pointer">
+                        <span class="font-bold text-gray-800">熟读并复述故事 "The Big Game"</span>
+                        <p class="text-sm text-gray-600">掌握故事中的基本句子（pitching, swinging, have got a chance, winning等）</p>
+                    </label>
+                </div>
+                <div class="flex items-start gap-3 bg-yellow-50 p-3 rounded-lg">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-yellow-800 rounded focus:ring-yellow-800" id="hw4">
+                    <label for="hw4" class="cursor-pointer">
+                        <span class="font-bold text-gray-800">完成现在进行时棒球对话</span>
+                        <p class="text-sm text-gray-600">编写6-8句对话，使用现在进行时（包含 The pitcher is throwing 等棒球元素）</p>
+                    </label>
+                </div>
+                <div class="flex items-start gap-3 bg-purple-50 p-3 rounded-lg">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-purple-800 rounded focus:ring-purple-800" id="hw5">
+                    <label for="hw5" class="cursor-pointer">
+                        <span class="font-bold text-gray-800">⚾ 挑战任务：观看一场棒球比赛</span>
+                        <p class="text-sm text-gray-600">尝试用英语描述比赛中正在发生的动作（3-5个句子）</p>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500 text-sm pb-8">
+            <div class="flex justify-center gap-4 mb-4 text-3xl">
+                <span>⚾</span>
+                <span>🏏</span>
+                <span>🧤</span>
+                <span>🏆</span>
+            </div>
+            <p>Superminds 2 · Unit 7 · Present Continuous Baseball Edition</p>
+            <p class="mt-1">改编自 ben1009.github.io · 棒球主题版</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            const element = document.getElementById(id);
+            if (element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+            } else {
+                element.classList.add('hidden');
+            }
+        }
+
+        function toggleThis(element) {
+            element.classList.toggle('bg-gray-50');
+        }
+
+        function copyDialogue() {
+            const dialogue = `A: Hi! What are you doing now?
+B: I am practicing my swing. What about you?
+A: I am waiting for my turn to bat.
+B: Look! The pitcher is throwing fast balls!
+A: Great! But there are lots of fans watching us.
+B: Don't worry. We are playing a big game. It is exciting!
+A: Look! The batter is hitting a home run!
+B: Yes! And now it is my turn to run to the base!`;
+            navigator.clipboard.writeText(dialogue).then(() => {
+                const msg = document.getElementById('copyMsg');
+                msg.classList.remove('hidden');
+                setTimeout(() => msg.classList.add('hidden'), 2000);
+            });
+        }
+    </script>
+</body>
+</html>
