@@ -8,7 +8,9 @@
     <!-- Google Analytics -->
     <script src="../ga.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
     <style>
         body {
             background: linear-gradient(180deg, #87CEEB 0%, #98FB98 40%, #228B22 100%);
@@ -244,14 +246,14 @@
         }
     </style>
 </head>
-<body class="text-gray-800 min-h-screen">
+<body class="text-gray-800 min-h-screen sm-body">
 
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-gradient-to-r from-blue-600 to-blue-800 border-b-4 border-yellow-400 shadow-lg">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-14">
                 <div class="flex items-center space-x-3">
-                    <span class="text-2xl">📚</span>
+                    <i data-lucide="book-open" class="text-white w-6 h-6"></i>
                     <span class="text-white text-lg font-bold">Super Minds 2</span>
                 </div>
                 <!-- Desktop Navigation -->
@@ -262,8 +264,8 @@
                     <a href="homework.html" class="px-3 py-2 text-sm font-medium text-white bg-white/20 rounded-lg border-b-2 border-yellow-400">作业 Homework</a>
                 </div>
                 <!-- Mobile Menu Button -->
-                <button type="button" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 text-xl">
-                    ☰
+                <button type="button" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
             <!-- Mobile Navigation -->
@@ -297,9 +299,9 @@
             </h2>
             
             <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 pb-2">
-                <button onclick="switchTab('affirmative')" class="tab-btn px-6 py-2 rounded-full bg-blue-900 text-white transition-all hover:shadow-lg font-medium" id="btn-affirmative">肯定句 ✓</button>
-                <button onclick="switchTab('negative')" class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 transition-all hover:shadow-lg" id="btn-negative">否定句 ✗</button>
-                <button onclick="switchTab('question')" class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 transition-all hover:shadow-lg" id="btn-question">疑问句 ?</button>
+                <button type="button" onclick="switchTab('affirmative')" class="tab-btn px-6 py-2 rounded-full bg-blue-900 text-white transition-all hover:shadow-lg font-medium" id="btn-affirmative">肯定句 ✓</button>
+                <button type="button" onclick="switchTab('negative')" class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 transition-all hover:shadow-lg" id="btn-negative">否定句 ✗</button>
+                <button type="button" onclick="switchTab('question')" class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 transition-all hover:shadow-lg" id="btn-question">疑问句 ?</button>
             </div>
 
             <div id="affirmative" class="tab-content active">
@@ -877,7 +879,7 @@
                             <h3 class="font-bold text-lg text-gray-800">4. 对话创作工坊（6-8句）</h3>
                             <p class="text-sm text-gray-600">点击灰色区域显示答案，再次点击隐藏；点击复制按钮获取完整文本</p>
                         </div>
-                        <button onclick="copyDialogue()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium shadow-sm flex items-center gap-2">
+                        <button type="button" onclick="copyDialogue()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium shadow-sm flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             复制对话
                         </button>
@@ -994,34 +996,34 @@
             <div class="space-y-4">
                 <label class="check-item flex items-start gap-4 p-4 bg-white bg-opacity-10 rounded-lg cursor-pointer hover:bg-opacity-20 transition-all">
                     <input type="checkbox" class="mt-1 w-5 h-5 rounded border-2 border-white bg-transparent checked:bg-cinnabar checked:border-cinnabar" onchange="toggleComplete(this)">
-                    <div>
-                        <div class="font-bold text-lg">复习现在进行时三种句式</div>
-                        <div class="text-sm opacity-80">肯定句、否定句、一般疑问句结构</div>
-                    </div>
+                    <span class="block">
+                        <span class="block font-bold text-lg">复习现在进行时三种句式</span>
+                        <span class="block text-sm opacity-80">肯定句、否定句、一般疑问句结构</span>
+                    </span>
                 </label>
 
                 <label class="check-item flex items-start gap-4 p-4 bg-white bg-opacity-10 rounded-lg cursor-pointer hover:bg-opacity-20 transition-all">
                     <input type="checkbox" class="mt-1 w-5 h-5 rounded border-2 border-white bg-transparent checked:bg-cinnabar checked:border-cinnabar" onchange="toggleComplete(this)">
-                    <div>
-                        <div class="font-bold text-lg">用现在进行时三种句式造句</div>
-                        <div class="text-sm opacity-80">使用生词1中的短语（waiting for a bus, playing with cars等）</div>
-                    </div>
+                    <span class="block">
+                        <span class="block font-bold text-lg">用现在进行时三种句式造句</span>
+                        <span class="block text-sm opacity-80">使用生词1中的短语（waiting for a bus, playing with cars等）</span>
+                    </span>
                 </label>
 
                 <label class="check-item flex items-start gap-4 p-4 bg-white bg-opacity-10 rounded-lg cursor-pointer hover:bg-opacity-20 transition-all">
                     <input type="checkbox" class="mt-1 w-5 h-5 rounded border-2 border-white bg-transparent checked:bg-cinnabar checked:border-cinnabar" onchange="toggleComplete(this)">
-                    <div>
-                        <div class="font-bold text-lg">熟读并复述故事 "The Bus Trip"</div>
-                        <div class="text-sm opacity-80">掌握故事中的基本句子（moving, have got a problem, Here we are等）</div>
-                    </div>
+                    <span class="block">
+                        <span class="block font-bold text-lg">熟读并复述故事 "The Bus Trip"</span>
+                        <span class="block text-sm opacity-80">掌握故事中的基本句子（moving, have got a problem, Here we are等）</span>
+                    </span>
                 </label>
 
                 <label class="check-item flex items-start gap-4 p-4 bg-white bg-opacity-10 rounded-lg cursor-pointer hover:bg-opacity-20 transition-all">
                     <input type="checkbox" class="mt-1 w-5 h-5 rounded border-2 border-white bg-transparent checked:bg-cinnabar checked:border-cinnabar" onchange="toggleComplete(this)">
-                    <div>
-                        <div class="font-bold text-lg">完成现在进行时对话</div>
-                        <div class="text-sm opacity-80">编写6-8句对话，使用现在进行时（包含 The bus is moving 等故事元素）</div>
-                    </div>
+                    <span class="block">
+                        <span class="block font-bold text-lg">完成现在进行时对话</span>
+                        <span class="block text-sm opacity-80">编写6-8句对话，使用现在进行时（包含 The bus is moving 等故事元素）</span>
+                    </span>
                 </label>
             </div>
 
@@ -1042,88 +1044,8 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-        }
-
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(tabName).classList.add('active');
-            
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-900', 'text-white');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
-            });
-            document.getElementById('btn-' + tabName).classList.remove('bg-gray-200', 'text-gray-700');
-            document.getElementById('btn-' + tabName).classList.add('bg-blue-900', 'text-white');
-        }
-
-        function toggleTimeline(node) {
-            const detail = node.querySelector('.timeline-detail');
-            const isExpanded = detail.classList.contains('expanded');
-            
-            if (isExpanded) {
-                detail.classList.remove('expanded');
-                node.classList.remove('active');
-            } else {
-                detail.classList.add('expanded');
-                node.classList.add('active');
-            }
-        }
-
-        function toggleAnswer(element) {
-            element.classList.toggle('revealed');
-            
-            // 添加点击反馈动画
-            element.style.transform = 'scale(0.98)';
-            setTimeout(() => {
-                element.style.transform = '';
-            }, 100);
-        }
-
-        function toggleComplete(checkbox) {
-            const label = checkbox.closest('label');
-            if (checkbox.checked) {
-                label.classList.add('completed');
-            } else {
-                label.classList.remove('completed');
-            }
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
-            const progress = (checked.length / checkboxes.length) * 100;
-            
-            document.getElementById('progress-bar').style.width = progress + '%';
-            document.getElementById('progress-text').textContent = checked.length + '/' + checkboxes.length + ' 完成';
-            
-            const progressData = {
-                checked: Array.from(checkboxes).map(cb => cb.checked),
-                date: new Date().toLocaleDateString()
-            };
-            localStorage.setItem('homeworkProgress', JSON.stringify(progressData));
-        }
-
-        window.onload = function() {
-            const saved = localStorage.getItem('homeworkProgress');
-            if (saved) {
-                const data = JSON.parse(saved);
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach((cb, index) => {
-                    if (data.checked[index]) {
-                        cb.checked = true;
-                        cb.closest('label').classList.add('completed');
-                    }
-                });
-                updateProgress();
-            }
-        };
+        // Using shared functions from common.js:
+        // toggleMobileMenu, switchTab, toggleTimeline, toggleAnswer, toggleComplete, updateProgress, restoreProgress
 
         function copyDialogue() {
             const dialogue = `A: Hi! What are you doing now?
@@ -1142,5 +1064,6 @@ B: Yes! And now it is my turn to take photos.`;
             });
         }
     </script>
+    <script src="../js/common.js"></script>
 </body>
 </html>
