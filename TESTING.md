@@ -2,7 +2,65 @@
 
 This guide helps verify that the refactoring didn't break any functionality.
 
-## Quick Start
+## Automated Testing (GitHub Actions)
+
+The project includes GitHub Actions workflows for automated testing:
+
+### Workflows
+
+| Workflow | File | Description |
+|----------|------|-------------|
+| **Quick Validation** | `.github/workflows/quick-test.yml` | Fast checks on every push/PR |
+| **Full CI** | `.github/workflows/ci.yml` | Comprehensive test suite |
+
+### Quick Validation Tests
+
+Runs on every push to master/main and on pull requests:
+
+- ✅ Required files exist (index.html, ga.js, css/common.css, js/common.js)
+- ✅ Duplicate ga.js removed from baseball folder
+- ✅ All pages reference shared CSS/JS correctly
+- ✅ Baseball pages use correct `../ga.js` path
+- ✅ HTML has proper DOCTYPE and viewport meta
+
+### Full CI Tests
+
+Comprehensive testing including:
+
+- **File Structure Validation** - All required files present
+- **HTML Validation** - Using html-validate
+- **CSS Validation** - Using stylelint
+- **JavaScript Validation** - Using ESLint
+- **Link Checking** - Internal link validation
+- **Functional Tests** - Using Puppeteer for browser automation
+- **Accessibility Checks** - Semantic HTML validation
+
+### Running Tests Locally
+
+You can run the same checks locally:
+
+```bash
+# Run the quick validation script
+./test.sh
+
+# Or manually check with these commands:
+
+# Check required files
+ls -la index.html ga.js css/common.css js/common.js
+
+# Check for duplicate ga.js
+ls super-minds-baseball/ga.js 2>/dev/null && echo "FAIL: Duplicate exists" || echo "PASS: No duplicate"
+
+# Check shared resource references
+grep "common.css" index.html unit7/*.html
+grep "common.js" index.html unit7/*.html
+```
+
+---
+
+## Manual Testing
+
+### Quick Start
 
 Start a local server to test the pages:
 

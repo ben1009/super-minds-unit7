@@ -1,0 +1,135 @@
+name: Quick Validation
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  validate:
+    name: Quick Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Validate Project Structure
+      run: |
+        echo "🔍 Validating Project Structure..."
+        
+        # Required files check
+        for file in "index.html" "ga.js" "css/common.css" "js/common.js"; do
+          if [ -f "$file" ]; then
+            echo "  ✅ $file"
+          else
+            echo "  ❌ $file missing!"
+            exit 1
+          fi
+        done
+        
+    - name: Check for Duplicate ga.js
+      run: |
+        echo ""
+        echo "🔍 Checking for duplicate ga.js..."
+        
+        if [ -f "super-minds-baseball/ga.js" ]; then
+          echo "  ❌ Duplicate ga.js found in super-minds-baseball/"
+          exit 1
+        else
+          echo "  ✅ No duplicate ga.js"
+        fi
+        
+    - name: Validate Shared Resource References
+      run: |
+        echo ""
+        echo "🔍 Validating Shared Resource References..."
+        
+        ERRORS=0
+        
+        # Check main pages reference shared CSS
+        for file in index.html unit7/index.html unit7/homework.html; do
+          if grep -q "common.css" "$file"; then
+            echo "  ✅ $file → common.css"
+          else
+            echo "  ❌ $file missing common.css!"
+            ERRORS=$((ERRORS + 1))
+          fi
+        done
+        
+        # Check main pages reference shared JS
+        for file in index.html unit7/index.html unit7/homework.html; do
+          if grep -q "common.js" "$file"; then
+            echo "  ✅ $file → common.js"
+          else
+            echo "  ❌ $file missing common.js!"
+            ERRORS=$((ERRORS + 1))
+          fi
+        done
+        
+        if [ $ERRORS -gt 0 ]; then
+          exit 1
+        fi
+        
+    - name: Check Baseball Pages Reference
+      run: |
+        echo ""
+        echo "🔍 Checking Baseball Pages..."
+        
+        for file in super-minds-baseball/index.html \
+                    super-minds-baseball/unit7/index.html \
+                    super-minds-baseball/unit7/homework.html \
+                    super-minds-baseball/unit8/index.html; do
+          if [ -f "$file" ]; then
+            if grep -q '\.\./ga\.js' "$file"; then
+              echo "  ✅ $file uses ../ga.js"
+            else
+              echo "  ⚠️ $file may not reference ga.js correctly"
+            fi
+          fi
+        done
+        
+    - name: Validate HTML Structure
+      run: |
+        echo ""
+        echo "🔍 Validating HTML Structure..."
+        
+        # Check for basic HTML structure
+        for file in index.html unit7/index.html unit7/homework.html unit8/index.html; do
+          if [ -f "$file" ]; then
+            # Check for doctype
+            if head -1 "$file" | grep -qi "<!doctype html>"; then
+              echo "  ✅ $file has DOCTYPE"
+            else
+              echo "  ❌ $file missing DOCTYPE!"
+              exit 1
+            fi
+            
+            # Check for viewport meta
+            if grep -q 'name="viewport"' "$file"; then
+              echo "  ✅ $file has viewport meta"
+            else
+              echo "  ⚠️ $file missing viewport meta"
+            fi
+          fi
+        done
+        
+    - name: Run Test Script
+      run: |
+        echo ""
+        echo "🔍 Running Test Script..."
+        
+        if [ -f "test.sh" ]; then
+          chmod +x test.sh
+          ./test.sh
+        else
+          echo "  ⚠️ test.sh not found"
+        fi
+        
+    - name: Summary
+      run: |
+        echo ""
+        echo "=========================================="
+        echo "  ✅ All Quick Validation Tests Passed!"
+        echo "=========================================="

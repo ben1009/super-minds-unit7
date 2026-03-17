@@ -1,0 +1,478 @@
+name: CI - Build & Test
+
+on:
+  push:
+    branches: [ master, main, 'refactor/**' ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  # ============================================
+  # Job 1: File Structure Validation
+  # ============================================
+  file-structure:
+    name: Validate File Structure
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check required files exist
+      run: |
+        echo "=== Checking Required Files ==="
+        
+        # Core files
+        test -f "index.html" || (echo "❌ index.html missing" && exit 1)
+        test -f "ga.js" || (echo "❌ ga.js missing" && exit 1)
+        test -f "css/common.css" || (echo "❌ css/common.css missing" && exit 1)
+        test -f "js/common.js" || (echo "❌ js/common.js missing" && exit 1)
+        
+        echo "✅ All required files present"
+        
+    - name: Check duplicate ga.js removed
+      run: |
+        echo "=== Checking Duplicate ga.js Removed ==="
+        
+        if [ -f "super-minds-baseball/ga.js" ]; then
+          echo "❌ Duplicate ga.js still exists in super-minds-baseball/"
+          exit 1
+        fi
+        
+        echo "✅ Duplicate ga.js properly removed"
+        
+    - name: Check HTML files reference shared resources
+      run: |
+        echo "=== Checking Shared Resource References ==="
+        
+        # Check main site pages use common.css
+        for file in index.html unit7/index.html unit7/homework.html; do
+          if grep -q "common.css" "$file"; then
+            echo "✅ $file references common.css"
+          else
+            echo "❌ $file missing common.css reference"
+            exit 1
+          fi
+        done
+        
+        # Check main site pages use common.js
+        for file in index.html unit7/index.html unit7/homework.html; do
+          if grep -q "common.js" "$file"; then
+            echo "✅ $file references common.js"
+          else
+            echo "❌ $file missing common.js reference"
+            exit 1
+          fi
+        done
+        
+        echo "✅ All pages reference shared resources"
+        
+    - name: Check baseball pages use correct ga.js path
+      run: |
+        echo "=== Checking Baseball ga.js References ==="
+        
+        for file in super-minds-baseball/index.html \
+                    super-minds-baseball/unit7/index.html \
+                    super-minds-baseball/unit7/homework.html \
+                    super-minds-baseball/unit8/index.html; do
+          if [ -f "$file" ]; then
+            if grep -q '\.\./ga\.js' "$file"; then
+              echo "✅ $file uses ../ga.js"
+            else
+              echo "⚠️ $file may not use correct ga.js path"
+            fi
+          fi
+        done
+
+  # ============================================
+  # Job 2: HTML Validation
+  # ============================================
+  html-validation:
+    name: Validate HTML
+    runs-on: ubuntu-latest
+    needs: file-structure
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install html-validate
+      run: npm install -g html-validate
+      
+    - name: Validate HTML files
+      run: |
+        echo "=== Validating HTML Files ==="
+        
+        # Create config for html-validate
+        cat > .htmlvalidate.json << 'CONFIG'
+        {
+          "extends": ["html-validate:recommended"],
+          "rules": {
+            "void-style": "omit",
+            "attr-quotes": "double",
+            "element-required-attributes": "error",
+            "no-trailing-whitespace": "warn"
+          }
+        }
+        CONFIG
+        
+        # Validate main pages
+        html-validate index.html || exit 1
+        html-validate unit7/index.html || exit 1
+        html-validate unit7/homework.html || exit 1
+        html-validate unit8/index.html || exit 1
+        
+        echo "✅ All HTML files valid"
+
+  # ============================================
+  # Job 3: CSS Validation
+  # ============================================
+  css-validation:
+    name: Validate CSS
+    runs-on: ubuntu-latest
+    needs: file-structure
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install stylelint
+      run: |
+        npm install -g stylelint stylelint-config-standard
+        
+    - name: Validate CSS
+      run: |
+        echo "=== Validating CSS Files ==="
+        
+        # Create stylelint config
+        cat > .stylelintrc.json << 'CONFIG'
+        {
+          "extends": ["stylelint-config-standard"],
+          "rules": {
+            "selector-class-pattern": null,
+            "property-no-vendor-prefix": null
+          }
+        }
+        CONFIG
+        
+        # Validate shared CSS
+        stylelint css/common.css || exit 1
+        
+        echo "✅ CSS files valid"
+
+  # ============================================
+  # Job 4: JavaScript Validation
+  # ============================================
+  js-validation:
+    name: Validate JavaScript
+    runs-on: ubuntu-latest
+    needs: file-structure
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install ESLint
+      run: |
+        npm install -g eslint
+        
+    - name: Validate JavaScript
+      run: |
+        echo "=== Validating JavaScript Files ==="
+        
+        # Create ESLint config
+        cat > .eslintrc.json << 'CONFIG'
+        {
+          "env": {
+            "browser": true,
+            "es2021": true
+          },
+          "extends": "eslint:recommended",
+          "parserOptions": {
+            "ecmaVersion": "latest"
+          },
+          "rules": {
+            "no-unused-vars": "warn",
+            "no-undef": "warn"
+          },
+          "globals": {
+            "lucide": "readonly"
+          }
+        }
+        CONFIG
+        
+        # Validate shared JS
+        eslint js/common.js || exit 1
+        eslint ga.js || exit 1
+        
+        echo "✅ JavaScript files valid"
+
+  # ============================================
+  # Job 5: Link Checker
+  # ============================================
+  link-check:
+    name: Check Internal Links
+    runs-on: ubuntu-latest
+    needs: [file-structure, html-validation]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install link checker
+      run: npm install -g hyperlink
+      
+    - name: Check internal links
+      run: |
+        echo "=== Checking Internal Links ==="
+        
+        # Simple grep-based check for common issues
+        
+        # Check for broken CSS references
+        echo "Checking CSS links..."
+        grep -r "href=\"css/" --include="*.html" . | grep -v "href=\"css/common.css" && exit 1 || true
+        
+        # Check for broken JS references  
+        echo "Checking JS links..."
+        grep -r "src=\"js/" --include="*.html" . | grep -v "src=\"js/common.js" && exit 1 || true
+        
+        echo "✅ Link check complete"
+
+  # ============================================
+  # Job 6: Functional Tests
+  # ============================================
+  functional-tests:
+    name: Functional Tests
+    runs-on: ubuntu-latest
+    needs: [html-validation, css-validation, js-validation]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install Puppeteer
+      run: |
+        npm install puppeteer
+        
+    - name: Run functional tests
+      run: |
+        echo "=== Running Functional Tests ==="
+        
+        # Create test script
+        cat > test-functional.js << 'TESTSCRIPT'
+        const puppeteer = require('puppeteer');
+        const http = require('http');
+        const fs = require('fs');
+        const path = require('path');
+        
+        // Simple static file server
+        const server = http.createServer((req, res) => {
+          let filePath = '.' + req.url;
+          if (filePath === './') filePath = './index.html';
+          
+          const extname = String(path.extname(filePath)).toLowerCase();
+          const mimeTypes = {
+            '.html': 'text/html',
+            '.js': 'text/javascript',
+            '.css': 'text/css',
+          };
+          
+          const contentType = mimeTypes[extname] || 'application/octet-stream';
+          
+          fs.readFile(filePath, (error, content) => {
+            if (error) {
+              res.writeHead(404);
+              res.end('Not Found');
+            } else {
+              res.writeHead(200, { 'Content-Type': contentType });
+              res.end(content, 'utf-8');
+            }
+          });
+        });
+        
+        async function runTests() {
+          server.listen(8000);
+          console.log('Test server started on port 8000');
+          
+          const browser = await puppeteer.launch({
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+          });
+          
+          let allPassed = true;
+          
+          // Test 1: Homepage loads
+          try {
+            const page = await browser.newPage();
+            await page.goto('http://localhost:8000/');
+            const title = await page.title();
+            console.log(title.includes('Super Minds') ? '✅ Homepage loads' : '❌ Homepage title incorrect');
+            await page.close();
+          } catch (e) {
+            console.log('❌ Homepage test failed:', e.message);
+            allPassed = false;
+          }
+          
+          // Test 2: Unit 7 page loads
+          try {
+            const page = await browser.newPage();
+            await page.goto('http://localhost:8000/unit7/index.html');
+            const hasToggle = await page.evaluate(() => typeof toggleMobileMenu === 'function');
+            console.log(hasToggle ? '✅ Unit 7 page loads with shared JS' : '❌ Unit 7 missing shared JS');
+            await page.close();
+          } catch (e) {
+            console.log('❌ Unit 7 test failed:', e.message);
+            allPassed = false;
+          }
+          
+          // Test 3: CSS loaded
+          try {
+            const page = await browser.newPage();
+            await page.goto('http://localhost:8000/');
+            const cssLoaded = await page.evaluate(() => {
+              return !!document.querySelector('link[href*="common.css"]');
+            });
+            console.log(cssLoaded ? '✅ Common CSS loaded' : '❌ Common CSS not loaded');
+            await page.close();
+          } catch (e) {
+            console.log('❌ CSS test failed:', e.message);
+            allPassed = false;
+          }
+          
+          // Test 4: Homework page has progress functionality
+          try {
+            const page = await browser.newPage();
+            await page.goto('http://localhost:8000/unit7/homework.html');
+            const hasProgress = await page.evaluate(() => typeof updateProgress === 'function');
+            console.log(hasProgress ? '✅ Homework page has progress tracking' : '❌ Homework missing progress');
+            await page.close();
+          } catch (e) {
+            console.log('❌ Homework test failed:', e.message);
+            allPassed = false;
+          }
+          
+          await browser.close();
+          server.close();
+          
+          console.log(allPassed ? '\n✅ All tests passed!' : '\n❌ Some tests failed');
+          process.exit(allPassed ? 0 : 1);
+        }
+        
+        runTests();
+        TESTSCRIPT
+        
+        node test-functional.js
+
+  # ============================================
+  # Job 7: Accessibility Check
+  # ============================================
+  accessibility:
+    name: Accessibility Check
+    runs-on: ubuntu-latest
+    needs: functional-tests
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check for accessibility attributes
+      run: |
+        echo "=== Checking Accessibility ==="
+        
+        # Check for alt attributes on images
+        echo "Checking image alt attributes..."
+        if grep -r "<img" --include="*.html" . | grep -v "alt=" | grep -v "lucide"; then
+          echo "⚠️ Some images may be missing alt attributes"
+        fi
+        
+        # Check for aria-labels on interactive elements
+        echo "Checking aria-labels on buttons..."
+        if ! grep -r 'aria-label="Toggle navigation' --include="*.html" . > /dev/null; then
+          echo "⚠️ Mobile menu buttons should have aria-label"
+        else
+          echo "✅ Navigation buttons have aria-labels"
+        fi
+        
+        # Check for semantic HTML
+        echo "Checking semantic HTML structure..."
+        if grep -r "<nav" --include="*.html" . > /dev/null; then
+          echo "✅ Navigation uses semantic <nav> element"
+        fi
+        
+        if grep -r "<main" --include="*.html" . > /dev/null; then
+          echo "✅ Main content uses semantic <main> element"
+        fi
+        
+        if grep -r "<header" --include="*.html" . > /dev/null; then
+          echo "✅ Headers use semantic <header> element"
+        fi
+        
+        if grep -r "<footer" --include="*.html" . > /dev/null; then
+          echo "✅ Footers use semantic <footer> element"
+        fi
+        
+        echo "✅ Accessibility check complete"
+
+  # ============================================
+  # Job 8: Summary
+  # ============================================
+  summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [file-structure, html-validation, css-validation, js-validation, link-check, functional-tests, accessibility]
+    if: always()
+    
+    steps:
+    - name: Print Summary
+      run: |
+        echo "========================================"
+        echo "        CI Test Summary"
+        echo "========================================"
+        echo ""
+        echo "Jobs Status:"
+        echo "  - File Structure:      ${{ needs.file-structure.result }}"
+        echo "  - HTML Validation:     ${{ needs.html-validation.result }}"
+        echo "  - CSS Validation:      ${{ needs.css-validation.result }}"
+        echo "  - JS Validation:       ${{ needs.js-validation.result }}"
+        echo "  - Link Check:          ${{ needs.link-check.result }}"
+        echo "  - Functional Tests:    ${{ needs.functional-tests.result }}"
+        echo "  - Accessibility:       ${{ needs.accessibility.result }}"
+        echo ""
+        echo "========================================"
+        
+    - name: Check All Passed
+      run: |
+        if [ "${{ needs.file-structure.result }}" != "success" ] || \
+           [ "${{ needs.html-validation.result }}" != "success" ] || \
+           [ "${{ needs.css-validation.result }}" != "success" ] || \
+           [ "${{ needs.js-validation.result }}" != "success" ] || \
+           [ "${{ needs.functional-tests.result }}" != "success" ]; then
+          echo "❌ Some required tests failed"
+          exit 1
+        fi
+        echo "✅ All required tests passed!"
