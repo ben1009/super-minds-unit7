@@ -114,6 +114,10 @@ All refactoring phases completed successfully!
 4. **Updated**: All HTML files to use shared resources
 5. **Updated**: `AGENTS.md` with new architecture documentation
 6. **Created**: GitHub Actions CI/CD workflows for automated testing
+   - Headless browser testing with Puppeteer and Playwright
+   - E2E tests for interactions, navigation, responsive design
+   - Lighthouse CI for performance and accessibility
+   - Visual regression testing with screenshots
 7. **Created**: TESTING.md and test.sh for manual testing
 
 ### Benefits:
@@ -126,14 +130,22 @@ All refactoring phases completed successfully!
 
 ### Testing
 
-Two types of tests are now available:
+Three types of tests are now available:
 
 1. **Automated (GitHub Actions)**:
-   - Runs on every push to master/main
-   - Runs on every pull request
-   - Validates file structure, HTML/CSS/JS, links, and functionality
+   - **Quick Validation** - File structure, references, HTML basics
+   - **Full CI** - HTML/CSS/JS validation, link checking, ESLint
+   - **Headless Browser** - Puppeteer/Playwright E2E tests in headless mode
+   - **Lighthouse CI** - Performance, accessibility, best practices audits
+   - **Visual Regression** - Screenshot comparisons
 
-2. **Manual**:
+2. **Local Headless Testing**:
+   ```bash
+   npm install puppeteer
+   node smoke-test.js  # Headless browser tests locally
+   ```
+
+3. **Manual**:
    - Run `./test.sh` for quick file checks
    - Run `python3 -m http.server 8000` for browser testing
    - Follow TESTING.md checklist
