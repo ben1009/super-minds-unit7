@@ -127,6 +127,148 @@ jobs:
           echo "  ⚠️ test.sh not found"
         fi
         
+    - name: Setup Node.js for Browser Test
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install Puppeteer
+      run: |
+        npm install puppeteer
+        
+    - name: Run Headless Browser Smoke Test
+      run: |
+        echo ""
+        echo "🔍 Running Headless Browser Smoke Test..."
+        
+        cat > smoke-test.js << 'TESTSCRIPT'
+        const puppeteer = require('puppeteer');
+        const http = require('http');
+        const fs = require('fs');
+        
+        // Simple static server
+        const server = http.createServer((req, res) => {
+          let filePath = '.' + req.url;
+          if (filePath === './') filePath = './index.html';
+          
+          fs.readFile(filePath, (error, content) => {
+            if (error) {
+              res.writeHead(404);
+              res.end('Not Found');
+            } else {
+              res.writeHead(200, { 'Content-Type': 'text/html' });
+              res.end(content);
+            }
+          });
+        });
+        
+        async function runSmokeTests() {
+          await new Promise(resolve => server.listen(8000, resolve));
+          console.log('  🚀 Test server started');
+          
+          const browser = await puppeteer.launch({
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+          });
+          
+          console.log('  🌐 Browser launched (headless mode)');
+          
+          let passed = 0;
+          let failed = 0;
+          
+          // Test 1: Homepage
+          try {
+            const page = await browser.newPage();
+            await page.goto('http://localhost:8000/');
+            const title = await page.title();
+            if (title.includes('Super Minds')) {
+              console.log('  ✅ Homepage loads correctly');
+              passed++;
+            } else {
+              console.log('  ❌ Homepage title incorrect:', title);
+              failed++;
+            }
+            await page.close();
+          } catch (e) {
+            console.log('  ❌ Homepage test failed:', e.message);
+            failed++;
+          }
+          
+          // Test 2: CSS/JS loaded
+          try {
+            const page = await browser.newPage();
+            await page.goto('http://localhost:8000/unit7/index.html');
+            
+            const results = await page.evaluate(() => ({
+              hasCommonCSS: !!document.querySelector('link[href*="common.css"]'),
+              hasCommonJS: typeof toggleMobileMenu === 'function',
+              hasToggleQuiz: typeof toggleQuizAnswer === 'function'
+            }));
+            
+            if (results.hasCommonCSS) { console.log('  ✅ Common CSS loaded'); passed++; }
+            else { console.log('  ❌ Common CSS not loaded'); failed++; }
+            
+            if (results.hasCommonJS) { console.log('  ✅ Common JS loaded'); passed++; }
+            else { console.log('  ❌ Common JS not loaded'); failed++; }
+            
+            if (results.hasToggleQuiz) { console.log('  ✅ Toggle functions available'); passed++; }
+            else { console.log('  ❌ Toggle functions missing'); failed++; }
+            
+            await page.close();
+          } catch (e) {
+            console.log('  ❌ Resource test failed:', e.message);
+            failed += 3;
+          }
+          
+          // Test 3: Interactions work
+          try {
+            const page = await browser.newPage();
+            await page.goto('http://localhost:8000/unit7/index.html');
+            
+            // Click a quiz item
+            const quizItem = await page.$('.quiz-item');
+            if (quizItem) {
+              await quizItem.click();
+              await page.waitForTimeout(500);
+              
+              const isExpanded = await page.evaluate(() => {
+                const answer = document.querySelector('.quiz-answer');
+                return answer && answer.classList.contains('show');
+              });
+              
+              if (isExpanded) {
+                console.log('  ✅ Quiz toggle interaction works');
+                passed++;
+              } else {
+                console.log('  ❌ Quiz toggle not working');
+                failed++;
+              }
+            } else {
+              console.log('  ⚠️ No quiz items found to test');
+            }
+            
+            await page.close();
+          } catch (e) {
+            console.log('  ❌ Interaction test failed:', e.message);
+            failed++;
+          }
+          
+          await browser.close();
+          server.close();
+          
+          console.log('');
+          console.log(`  Results: ${passed} passed, ${failed} failed`);
+          
+          if (failed > 0) {
+            process.exit(1);
+          }
+        }
+        
+        runSmokeTests();
+        TESTSCRIPT
+        
+        node smoke-test.js
+        
     - name: Summary
       run: |
         echo ""
