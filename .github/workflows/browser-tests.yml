@@ -218,7 +218,7 @@ jobs:
             await page.setViewportSize({ width: 375, height: 667 });
             
             // Open mobile menu
-            await page.click('button[onclick="toggleMobileMenu()"], button[aria-label*="navigation"]').first();
+            await page.locator('button[onclick="toggleMobileMenu()"], button[aria-label*="navigation"]').first().click();
             
             // Click a link in mobile menu
             await page.click('#mobileMenu a[href="../index.html"]');
