@@ -62,11 +62,15 @@ grep "common.js" index.html unit7/*.html
 
 ### Quick Start
 
+> **Note:** Replace `<project-root>` with your actual project directory path (e.g., `~/projects/super-minds` or `C:\Users\YourName\projects\super-minds`)
+
 Start a local server to test the pages:
 
 ```bash
+# Navigate to project root (change to your actual path)
+cd <project-root>
+
 # Using Python 3
-cd /home/liu/proj/super-minds
 python3 -m http.server 8000
 
 # Or using Node.js (if installed)
