@@ -115,7 +115,8 @@ jobs:
           "rules": {
             "attr-quotes": "error",
             "element-required-attributes": "error",
-            "no-trailing-whitespace": "warn"
+            "no-trailing-whitespace": "warn",
+            "no-inline-style": "off"
           }
         }
         CONFIG

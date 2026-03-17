@@ -225,11 +225,14 @@ jobs:
             const page = await browser.newPage();
             await page.goto('http://localhost:8000/unit7/index.html');
             
+            // Helper function for delay
+            const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+            
             // Click a quiz item
             const quizItem = await page.$('.quiz-item');
             if (quizItem) {
               await quizItem.click();
-              await page.waitForTimeout(500);
+              await delay(500);
               
               const isExpanded = await page.evaluate(() => {
                 const answer = document.querySelector('.quiz-answer');
