@@ -299,9 +299,9 @@
             </h2>
             
             <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 pb-2">
-                <button onclick="switchTab('affirmative')" class="tab-btn px-6 py-2 rounded-full bg-blue-900 text-white transition-all hover:shadow-lg font-medium" id="btn-affirmative">肯定句 ✓</button>
-                <button onclick="switchTab('negative')" class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 transition-all hover:shadow-lg" id="btn-negative">否定句 ✗</button>
-                <button onclick="switchTab('question')" class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 transition-all hover:shadow-lg" id="btn-question">疑问句 ?</button>
+                <button type="button" onclick="switchTab('affirmative')" class="tab-btn px-6 py-2 rounded-full bg-blue-900 text-white transition-all hover:shadow-lg font-medium" id="btn-affirmative">肯定句 ✓</button>
+                <button type="button" onclick="switchTab('negative')" class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 transition-all hover:shadow-lg" id="btn-negative">否定句 ✗</button>
+                <button type="button" onclick="switchTab('question')" class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 transition-all hover:shadow-lg" id="btn-question">疑问句 ?</button>
             </div>
 
             <div id="affirmative" class="tab-content active">
@@ -879,7 +879,7 @@
                             <h3 class="font-bold text-lg text-gray-800">4. 对话创作工坊（6-8句）</h3>
                             <p class="text-sm text-gray-600">点击灰色区域显示答案，再次点击隐藏；点击复制按钮获取完整文本</p>
                         </div>
-                        <button onclick="copyDialogue()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium shadow-sm flex items-center gap-2">
+                        <button type="button" onclick="copyDialogue()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium shadow-sm flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             复制对话
                         </button>

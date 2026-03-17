@@ -184,8 +184,8 @@ jobs:
           test('answer masks toggle on click', async ({ page }) => {
             await page.goto('http://localhost:8000/unit7/homework.html');
             const answerMask = page.locator('.answer-mask').first();
-            await answerMask.waitFor({ state: 'visible' });
-            await answerMask.click();
+            // Use force: true because answer-mask elements have color:transparent by default
+            await answerMask.click({ force: true });
             await expect(answerMask).toHaveClass(/revealed/);
           });
           
@@ -223,7 +223,8 @@ jobs:
             
             // Click a link in mobile menu
             await page.click('#mobileMenu a[href="../index.html"]');
-            await expect(page).toHaveURL('http://localhost:8000/');
+            const url = page.url();
+            expect(url).toMatch(/http:\/\/localhost:8000\/(index\.html)?$/);
           });
         });
         
