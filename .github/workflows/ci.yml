@@ -113,8 +113,7 @@ jobs:
         {
           "extends": ["html-validate:recommended"],
           "rules": {
-            "void-style": "omit",
-            "attr-quotes": "double",
+            "attr-quotes": "error",
             "element-required-attributes": "error",
             "no-trailing-whitespace": "warn"
           }
