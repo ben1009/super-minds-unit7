@@ -197,13 +197,13 @@ jobs:
         
     - name: Install ESLint
       run: |
-        npm install -g eslint
+        npm install -g eslint@8
         
     - name: Validate JavaScript
       run: |
         echo "=== Validating JavaScript Files ==="
         
-        # Create ESLint config
+        # Create ESLint config (v8 format)
         cat > .eslintrc.json << 'CONFIG'
         {
           "env": {
